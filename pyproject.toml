@@ -1,0 +1,45 @@
+[tool.black]
+line-length = 178
+target-version = ['py33']
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.poetry]
+name = "django-dynamic-storages"
+version = "0.1.0"
+description = "A collection of file fields and associated components to allow for dynamic configuration of storage properties for file-based fields within Django models."
+authors = ["Patrick McClory <patrick@mcclory.io>"]
+license = "ISC"
+packages = [
+    { include = "dynamic_storages" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "^3.0.0"
+django-storages = {extras = ["azure", "boto3", "dropbox", "google", "libcloud", "sftp"], version = "^1.10.1"}
+django-fernet-fields = "^0.6"
+
+[tool.poetry.dev-dependencies]
+factory-boy = "^3.1.0"
+python-dotenv = "^0.14.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
