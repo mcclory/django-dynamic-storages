@@ -1,3 +1,26 @@
-from django.shortcuts import render
+from django.views.generic import View
+import os
+import magic
+from .conf import settings
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
+
+class AbstractSecureFileContents(View):
+    model = None
+    url_kwargs = []
+    file_field = None
+
+    def get(self, request, *args, **kwargs):
+        user_id = request.user
+        try:
+            query_kwargs = {k: kwargs.get(k) for k in url_kwargs if kwargs.get(k)}
+            if request.user.is_authenticated:
+                doc = get_object_or_404(self.model, **query_kwargs)
+                content = getattr(doc, file_field).get_decrypted().read()
+                return HttpResponse(content, content_type=magic.Magic(mime=True).from_buffer(content))
+            else:
+                log.warn("Unauthenticated request for {} with kwargs: {}".format(self.model.__name__, query_kwargs))
+        except Exception as ex:
+            log.warn("Failed to get property for request: {}".format(ex))
+        raise Http404

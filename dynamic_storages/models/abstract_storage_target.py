@@ -1,7 +1,6 @@
 from google.oauth2 import service_account
 
-from base.db.fields import EncryptedJSONField
-from base.models.base import AsOfMixin, NameDescriptionBaseObject
+from ..fields.encrypted_json import EncryptedJSONField
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -12,7 +11,7 @@ from uuid import uuid4
 log = logging.getLogger(__name__)
 
 
-class AbstractStorageTarget(AsOfMixin, NameDescriptionBaseObject):
+class AbstractStorageTarget(models.Model):
     """Abstract implementation of a storage target which includes access details for how to interact with the downstream object storage system"""
 
     id = models.UUIDField(default=uuid4, primary_key=True, help_text=_("UUID identifying this objects"))
@@ -93,7 +92,7 @@ class AbstractStorageTarget(AsOfMixin, NameDescriptionBaseObject):
     def _check_credentials(self):
         pass
 
-    class Meta(NameDescriptionBaseObject.Meta):
+    class Meta:
         abstract = True
         verbose_name = _("Storage Target")
         verbose_name_plural = _("Storage Targets")

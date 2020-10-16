@@ -1,12 +1,28 @@
 from dynamic_storages.models import AbstractStorageTarget
 from django.db import models
-from dynamic_storages.db.fields import DynamicStorageFileField
+from dynamic_storages.fields.dynamic_storage import DynamicStorageFileField, DynamicStorageImageField
+from dynamic_storages.fields.encrypted_content import EncryptedFileField, EncryptedImageField
 from django.core.files.storage import default_storage
+from cryptography.fernet import Fernet
+import base64
+import logging
+import hashlib
+from uuid import uuid4
+from dynamic_storages.conf import settings
+
+log = logging.getLogger(__name__)
 
 
 class TestStorageTarget(AbstractStorageTarget):
     class Meta(AbstractStorageTarget.Meta):
         abstract = False
+
+
+class TestBase(models.Model):
+    storage_target = models.ForeignKey("TestStorageTarget", on_delete=models.CASCADE)
+
+    class Meta:
+        abstract = True
 
 
 def get_storage(instance=None):
@@ -15,6 +31,47 @@ def get_storage(instance=None):
     return default_storage
 
 
-class TestFileStorageModel(models.Model):
-    file = DynamicStorageFileField(storage=get_storage)
-    storage_target = models.ForeignKey("TestStorageTarget", on_delete=models.CASCADE)
+def upload_to(instance, filename):
+    prefix = hashlib.md5(str(uuid4()).encode("utf-8")).hexdigest()
+    return "{}/{}".format(prefix, filename)
+
+
+class TestFileStorageModel(TestBase):
+    file = DynamicStorageFileField(storage=get_storage, upload_to=upload_to)
+
+    class Meta:
+        abstract = False
+
+
+class TestImageStorageModel(TestBase):
+    image = DynamicStorageImageField(storage=get_storage, upload_to=upload_to)
+
+    class Meta:
+        abstract = False
+
+
+def get_fernet(instance, prop_name="key"):
+    if not getattr(instance, prop_name, None):
+        print("Setting key for fernet in instance")
+        setattr(instance, prop_name, gen_key())
+    return Fernet(base64.b64decode(getattr(instance, prop_name, None)))
+
+
+def gen_key():
+    return base64.b64encode(Fernet.generate_key())
+
+
+class TestEncryptedFileFieldModel(TestBase):
+    file = EncryptedFileField(storage=get_storage, fernet=get_fernet, upload_to=upload_to)
+    key = models.CharField(max_length=60, default=gen_key, editable=False)
+
+    class Meta:
+        abstract = False
+
+
+class TestEncryptedImageFieldModel(TestBase):
+    image = EncryptedImageField(storage=get_storage, fernet=get_fernet, upload_to=upload_to)
+    key = models.CharField(max_length=60, default=gen_key, editable=False)
+
+    class Meta:
+        abstract = False

@@ -1,4 +1,4 @@
-from .models import TestStorageTarget, TestFileStorageModel
+from .models import TestStorageTarget, TestFileStorageModel, TestImageStorageModel, TestEncryptedFileFieldModel, TestEncryptedImageFieldModel, get_fernet, gen_key
 import base64
 import json
 import os
@@ -13,7 +13,6 @@ from django.utils.text import slugify
 from faker import Faker
 from functools import partial
 from django.core.files.base import ContentFile
-from base.tests.factories import NameDetailFactoryMixin
 import logging
 
 
@@ -116,7 +115,9 @@ def get_config(key, **kwargs):
     return ret_val
 
 
-class TestStorageTargetFactory(NameDetailFactoryMixin, factory.django.DjangoModelFactory):
+class TestStorageTargetFactory(factory.django.DjangoModelFactory):
+    name = factory.LazyFunction(fake.catch_phrase)
+    description = factory.LazyFunction(partial(fake.paragraph, 3))
     provider = factory.fuzzy.FuzzyChoice([x for x in STORAGE_PROVIDER_MAP.keys()], getter=lambda c: c)
     config = factory.LazyAttribute(lambda o: get_config(o.provider))
     last_status = factory.fuzzy.FuzzyChoice([x for x in LAST_STATUS_CHOICES], getter=lambda c: c[0])
@@ -135,3 +136,27 @@ class TestFileStorageModelFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = TestFileStorageModel
+
+
+class TestImageStorageModelFactory(factory.django.DjangoModelFactory):
+    storage_target = factory.SubFactory(TestStorageTargetFactory)
+    image = factory.django.ImageField()
+
+    class Meta:
+        model = TestImageStorageModel
+
+
+class TestEncryptedFileFieldModelFactory(factory.django.DjangoModelFactory):
+    storage_target = factory.SubFactory(TestStorageTargetFactory)
+    file = factory.django.FileField(from_func=gen_file)
+
+    class Meta:
+        model = TestEncryptedFileFieldModel
+
+
+class TestEncryptedImageFieldModelFactory(factory.django.DjangoModelFactory):
+    storage_target = factory.SubFactory(TestStorageTargetFactory)
+    image = factory.django.ImageField()
+
+    class Meta:
+        model = TestEncryptedImageFieldModel
