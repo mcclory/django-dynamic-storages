@@ -1,13 +1,17 @@
 import logging
 from io import BytesIO
+
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from .dynamic_storage import DynamicStorageFieldFile, DynamicStorageFileField, DynamicStorageImageField, DynamicStorageImageFieldFile, FileFieldMixin
 from django.core.files.images import ImageFile
 from django.db.models.fields.files import FieldFile, FileField, ImageField
-from ..conf import settings
 from django.urls import reverse
+
+from ..conf import settings
+from .dynamic_storage import (DynamicStorageFieldFile, DynamicStorageFileField,
+                              DynamicStorageImageField,
+                              DynamicStorageImageFieldFile, FileFieldMixin)
 
 log = logging.getLogger(__name__)
 

@@ -1,6 +1,7 @@
 import logging
-from django.db.models.fields.files import FieldFile, FileField, ImageField
+
 from django.core.files.images import ImageFile
+from django.db.models.fields.files import FieldFile, FileField, ImageField
 
 log = logging.getLogger(__name__)
 

@@ -1,14 +1,18 @@
-from dynamic_storages.models import AbstractStorageTarget
-from django.db import models
-from dynamic_storages.fields.dynamic_storage import DynamicStorageFileField, DynamicStorageImageField
-from dynamic_storages.fields.encrypted_content import EncryptedFileField, EncryptedImageField
-from django.core.files.storage import default_storage
-from cryptography.fernet import Fernet
 import base64
-import logging
 import hashlib
+import logging
 from uuid import uuid4
+
+from cryptography.fernet import Fernet
+from django.core.files.storage import default_storage
+from django.db import models
+
 from dynamic_storages.conf import settings
+from dynamic_storages.fields.dynamic_storage import (DynamicStorageFileField,
+                                                     DynamicStorageImageField)
+from dynamic_storages.fields.encrypted_content import (EncryptedFileField,
+                                                       EncryptedImageField)
+from dynamic_storages.models import AbstractStorageTarget
 
 log = logging.getLogger(__name__)
 

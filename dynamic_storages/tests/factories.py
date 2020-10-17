@@ -1,20 +1,25 @@
-from .models import TestStorageTarget, TestFileStorageModel, TestImageStorageModel, TestEncryptedFileFieldModel, TestEncryptedImageFieldModel, get_fernet, gen_key
 import base64
 import json
+import logging
 import os
 import string
 from datetime import timedelta
-from dynamic_storages.models.mappings import LAST_STATUS_CHOICES, STORAGE_PROVIDER_MAP
+from functools import partial
+
 import factory
 import factory.django
 import factory.fuzzy
+from django.core.files.base import ContentFile
 from django.utils import timezone
 from django.utils.text import slugify
 from faker import Faker
-from functools import partial
-from django.core.files.base import ContentFile
-import logging
 
+from dynamic_storages.models.mappings import (LAST_STATUS_CHOICES,
+                                              STORAGE_PROVIDER_MAP)
+
+from .models import (TestEncryptedFileFieldModel, TestEncryptedImageFieldModel,
+                     TestFileStorageModel, TestImageStorageModel,
+                     TestStorageTarget, gen_key, get_fernet)
 
 log = logging.getLogger(__name__)
 

@@ -1,12 +1,13 @@
-from google.oauth2 import service_account
+import logging
+from uuid import uuid4
 
-from ..fields.encrypted_json import EncryptedJSONField
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from google.oauth2 import service_account
+
+from ..fields.encrypted_json import EncryptedJSONField
 from .mappings import LAST_STATUS_CHOICES, STORAGE_PROVIDER_MAP
-import logging
-from uuid import uuid4
 
 log = logging.getLogger(__name__)
 

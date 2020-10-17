@@ -1,9 +1,11 @@
-from django.views.generic import View
 import os
+
 import magic
-from .conf import settings
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
+from django.views.generic import View
+
+from .conf import settings
 
 
 class AbstractSecureFileContents(View):

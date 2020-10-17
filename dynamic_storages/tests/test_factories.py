@@ -1,11 +1,9 @@
 from django.test import TestCase
-from .factories import (
-    TestStorageTargetFactory,
-    TestFileStorageModelFactory,
-    TestEncryptedFileFieldModelFactory,
-    TestEncryptedImageFieldModelFactory,
-    TestImageStorageModelFactory,
-)
+
+from .factories import (TestEncryptedFileFieldModelFactory,
+                        TestEncryptedImageFieldModelFactory,
+                        TestFileStorageModelFactory,
+                        TestImageStorageModelFactory, TestStorageTargetFactory)
 
 
 class TestStorageTargetFactoryTestCase(TestCase):
