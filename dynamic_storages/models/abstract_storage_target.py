@@ -14,9 +14,21 @@ log = logging.getLogger(__name__)
 class AbstractStorageTarget(models.Model):
     """Abstract implementation of a storage target which includes access details for how to interact with the downstream object storage system"""
 
-    id = models.UUIDField(default=uuid4, primary_key=True, help_text=_("UUID identifying this objects"))
-    name = models.CharField(max_length=150, db_index=True, help_text=_("Name of this object"))
-    description = models.TextField(blank=True, null=True, help_text=_("Description of this object"))
+    id = models.UUIDField(
+        default=uuid4,
+        primary_key=True,
+        help_text=_("UUID identifying this objects"),
+    )
+    name = models.CharField(
+        max_length=150,
+        db_index=True,
+        help_text=_("Name of this object"),
+    )
+    description = models.TextField(
+        blank=True,
+        null=True,
+        help_text=_("Description of this object"),
+    )
 
     last_checked = models.DateTimeField(
         null=True,
