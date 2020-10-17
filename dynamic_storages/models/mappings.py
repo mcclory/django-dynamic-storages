@@ -1,5 +1,4 @@
-from storages.backends import (apache_libcloud, azure_storage, dropbox, ftp,
-                               gcloud, s3boto3, sftpstorage)
+from storages.backends import apache_libcloud, azure_storage, dropbox, ftp, gcloud, s3boto3, sftpstorage
 
 LAST_STATUS_CHOICES = [["v", "Valid"], ["e", "Error"], ["u", "Unknown"]]
 STORAGE_PROVIDER_MAP = {
@@ -11,4 +10,5 @@ STORAGE_PROVIDER_MAP = {
     "s3boto3": {"class": s3boto3.S3Boto3Storage, "name": "S3/Boto3"},
     "do": {"class": s3boto3.S3Boto3Storage, "name": "Digital Ocean (boto3)"},
     "sftp": {"class": sftpstorage.SFTPStorage, "name": "SFTP"},
+    "default": {},
 }

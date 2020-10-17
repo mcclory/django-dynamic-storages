@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from google.oauth2 import service_account
+from django.core.files.storage import default_storage
 
 from ..fields.encrypted_json import EncryptedJSONField
 from .mappings import LAST_STATUS_CHOICES, STORAGE_PROVIDER_MAP
@@ -87,19 +88,21 @@ class AbstractStorageTarget(models.Model):
     @property
     def storage_backend(self):
         """Property that should be used when assigning a DynamicStorageFileField's `storage` property at runtime"""
-        create_class = STORAGE_PROVIDER_MAP[self.provider]["class"]
-        create_kwargs = getattr(self, "config", {}).copy()
-        if self.provider == "gcloud":
-            log.debug("creds: {}".format(create_kwargs.get("credentials", {})))
-            create_kwargs["credentials"] = service_account.Credentials.from_service_account_info(create_kwargs.pop("credentials", {}))
-        if self.provider == "digitalocean":
-            create_kwargs["addressing_style"] = "path"
-            if not create_kwargs.get("region_name"):
-                create_kwargs["region_name"] = "SFO1"
-            create_kwargs["endpoint_url"] = "https://{}.digitaloceanspaces.com".format(create_kwargs.get("region_name", "SFO1"))
-        elif self.provider == "s3boto3":
-            create_kwargs["default_acl"] = create_kwargs.get("default_acl", "bucket-owner-full-control")
-        return create_class(**create_kwargs)
+        if self.provider != "default":
+            create_class = STORAGE_PROVIDER_MAP[self.provider]["class"]
+            create_kwargs = getattr(self, "config", {}).copy()
+            if self.provider == "gcloud":
+                log.debug("creds: {}".format(create_kwargs.get("credentials", {})))
+                create_kwargs["credentials"] = service_account.Credentials.from_service_account_info(create_kwargs.pop("credentials", {}))
+            if self.provider == "digitalocean":
+                create_kwargs["addressing_style"] = "path"
+                if not create_kwargs.get("region_name"):
+                    create_kwargs["region_name"] = "SFO1"
+                create_kwargs["endpoint_url"] = "https://{}.digitaloceanspaces.com".format(create_kwargs.get("region_name", "SFO1"))
+            elif self.provider == "s3boto3":
+                create_kwargs["default_acl"] = create_kwargs.get("default_acl", "bucket-owner-full-control")
+            return create_class(**create_kwargs)
+        return default_storage
 
     def _check_credentials(self):
         pass

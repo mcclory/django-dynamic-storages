@@ -22,7 +22,7 @@ exclude = '''
 
 [tool.poetry]
 name = "django-dynamic-storages"
-version = "0.1.7"
+version = "0.2.1"
 description = "A collection of file fields and associated components to allow for dynamic configuration of storage properties for file-based fields within Django models."
 authors = ["Patrick McClory <patrick@mcclory.io>"]
 license = "ISC"
