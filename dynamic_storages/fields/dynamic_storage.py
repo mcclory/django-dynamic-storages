@@ -1,7 +1,6 @@
 import logging
-
-from django.core.files.images import ImageFile
 from django.db.models.fields.files import FieldFile, FileField, ImageField
+from django.core.files.images import ImageFile
 
 log = logging.getLogger(__name__)
 
@@ -29,6 +28,11 @@ class DynamicStorageFileField(FileFieldMixin, FileField):
     """File field implementation for dynamically setting the storage provider for the file to be stored/retrieved at runtime based on a callable passed into this field definition for the `storage` kwarg"""
 
     attr_class = DynamicStorageFieldFile
+
+    def __init__(self, *args, **kwargs):
+        if "_storage_callable" in kwargs and kwargs.get("_storage_callable"):
+            self._storage_callable = kwargs.pop("_storage_callable")
+        super().__init__(*args, **kwargs)
 
     def pre_save(self, model_instance, add):
         if getattr(self, "_storage_callable", None):

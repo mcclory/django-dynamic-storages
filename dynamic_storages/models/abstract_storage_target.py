@@ -30,7 +30,6 @@ class AbstractStorageTarget(models.Model):
         null=True,
         help_text=_("Description of this object"),
     )
-
     last_checked = models.DateTimeField(
         null=True,
         blank=True,
