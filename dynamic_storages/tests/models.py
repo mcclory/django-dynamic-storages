@@ -8,10 +8,8 @@ from django.core.files.storage import default_storage
 from django.db import models
 
 from dynamic_storages.conf import settings
-from dynamic_storages.fields.dynamic_storage import (DynamicStorageFileField,
-                                                     DynamicStorageImageField)
-from dynamic_storages.fields.encrypted_content import (EncryptedFileField,
-                                                       EncryptedImageField)
+from dynamic_storages.fields.dynamic_storage import DynamicStorageFileField, DynamicStorageImageField
+from dynamic_storages.fields.encrypted_content import EncryptedFileField, EncryptedImageField
 from dynamic_storages.models import AbstractStorageTarget
 
 log = logging.getLogger(__name__)
@@ -29,7 +27,7 @@ class TestBase(models.Model):
         abstract = True
 
 
-def get_storage(instance=None):
+def get_storage(instance):
     if instance:
         return instance.storage_target.storage_backend
     return default_storage
@@ -41,14 +39,14 @@ def upload_to(instance, filename):
 
 
 class TestFileStorageModel(TestBase):
-    file = DynamicStorageFileField(storage=get_storage, upload_to=upload_to)
+    file = DynamicStorageFileField(storage_instance_callable=get_storage, upload_to=upload_to)
 
     class Meta:
         abstract = False
 
 
 class TestImageStorageModel(TestBase):
-    image = DynamicStorageImageField(storage=get_storage, upload_to=upload_to)
+    image = DynamicStorageImageField(storage_instance_callable=get_storage, upload_to=upload_to)
 
     class Meta:
         abstract = False
@@ -66,7 +64,7 @@ def gen_key():
 
 
 class TestEncryptedFileFieldModel(TestBase):
-    file = EncryptedFileField(storage=get_storage, fernet=get_fernet, upload_to=upload_to)
+    file = EncryptedFileField(storage_instance_callable=get_storage, fernet=get_fernet, upload_to=upload_to)
     key = models.CharField(max_length=60, default=gen_key, editable=False)
 
     class Meta:
@@ -74,7 +72,7 @@ class TestEncryptedFileFieldModel(TestBase):
 
 
 class TestEncryptedImageFieldModel(TestBase):
-    image = EncryptedImageField(storage=get_storage, fernet=get_fernet, upload_to=upload_to)
+    image = EncryptedImageField(storage_instance_callable=get_storage, fernet=get_fernet, upload_to=upload_to)
     key = models.CharField(max_length=60, default=gen_key, editable=False)
 
     class Meta:
