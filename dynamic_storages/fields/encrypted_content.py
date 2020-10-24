@@ -27,6 +27,8 @@ class EncryptedFile(BytesIO):
 class DecryptedFile(BytesIO):
     def __init__(self, content, fernet):
         if content:
+            if isinstance(content, EncryptedFieldFile):
+                content = content.read()
             BytesIO.__init__(self, fernet.decrypt(content))
         else:
             BytesIO.__init__(self, None)
@@ -60,8 +62,7 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
         return None
 
     def get_decrypted(self):
-        with self.open("rb") as f:
-            return DecryptedFile(f, self.fernet)
+        return DecryptedFile(self.open('rb').read(), self.fernet)
 
     url = property(_get_url)
 
