@@ -39,7 +39,8 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
         self.fernet = getattr(field, "fernet", None)
         super().__init__(instance, field, name)
         if callable(self.fernet):
-            self.fernet = self.fernet(instance) if self.fernet and callable(self.fernet) else self.fernet
+            log.debug('EncryptedFieldFile init - fernet {} is callable'.format(self.fernet))
+            self.fernet = self.fernet(instance)
         if not self.fernet:
             raise RuntimeError("Encryption Fernet details not provided for this instance of a EncryptedFieldFile")
 
@@ -62,7 +63,11 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
         return None
 
     def get_decrypted(self):
-        return DecryptedFile(self.open('rb').read(), self.fernet)
+        if self.fernet:
+            log.debug('Fernet type is {}'.format(type(self.fernet)))
+            return DecryptedFile(self.open('rb').read(), self.fernet)
+        else:
+            return BytesIO(self.open('rb').read())
 
     url = property(_get_url)
 
