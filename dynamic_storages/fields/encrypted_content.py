@@ -17,6 +17,7 @@ log = logging.getLogger(__name__)
 
 
 class EncryptedFile(BytesIO):
+    """Wrapper class which encrypts the content supplied with the fernet specified on initialization"""
     def __init__(self, content, fernet):
         if content:
             BytesIO.__init__(self, fernet.encrypt(content.read()))
@@ -25,9 +26,11 @@ class EncryptedFile(BytesIO):
 
 
 class DecryptedFile(BytesIO):
+    """Wrapper class around `io.BytesIO` that augments the initialization of the class to decrypt contents if a fernet is passed in to the constructor"""
     def __init__(self, content, fernet):
         if content:
             if isinstance(content, EncryptedFieldFile):
+                log.info('DecryptedFile object needs to read object to bytes')
                 content = content.read()
             BytesIO.__init__(self, fernet.decrypt(content))
         else:
