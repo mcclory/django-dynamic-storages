@@ -22,7 +22,7 @@ class EncryptedFile(BytesIO):
         if content and hasattr(content, 'read'):
             content = content.read()
         if content:
-            BytesIO.__init__(self, fernet.encrypt(content)
+            BytesIO.__init__(self, fernet.encrypt(content))
         else:
             BytesIO.__init__(self, content)
 
