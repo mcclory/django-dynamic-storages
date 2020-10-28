@@ -19,22 +19,23 @@ log = logging.getLogger(__name__)
 class EncryptedFile(BytesIO):
     """Wrapper class which encrypts the content supplied with the fernet specified on initialization"""
     def __init__(self, content, fernet):
+        if content and hasattr(content, 'read'):
+            content = content.read()
         if content:
-            BytesIO.__init__(self, fernet.encrypt(content.read()))
+            BytesIO.__init__(self, fernet.encrypt(content)
         else:
-            BytesIO.__init__(self, None)
+            BytesIO.__init__(self, content)
 
 
 class DecryptedFile(BytesIO):
     """Wrapper class around `io.BytesIO` that augments the initialization of the class to decrypt contents if a fernet is passed in to the constructor"""
     def __init__(self, content, fernet):
+        if content and hasattr(content, 'read'):
+            content = content.read()
         if content:
-            if isinstance(content, EncryptedFieldFile):
-                log.info('DecryptedFile object needs to read object to bytes')
-                content = content.read()
             BytesIO.__init__(self, fernet.decrypt(content))
         else:
-            BytesIO.__init__(self, None)
+            BytesIO.__init__(self, content)
 
 
 class EncryptedFieldFile(DynamicStorageFieldFile):
@@ -68,7 +69,7 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
     def get_decrypted(self):
         if self.fernet:
             log.debug('Fernet type is {}'.format(type(self.fernet)))
-            return DecryptedFile(self.open('rb').read(), self.fernet)
+            return DecryptedFile(self.open('rb'), self.fernet)
         else:
             return BytesIO(self.open('rb').read())
 
