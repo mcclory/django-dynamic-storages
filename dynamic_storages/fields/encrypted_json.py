@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 
 class EncryptedJSONField(EncryptedTextField):
-    """JSON dictionary that is encrypted at rest as a text object - based off of the django-fernet-fields EncryptedTextField"""
+    """JSON dictionary that is encrypted at rest as a text object - based off of the django-fernet-fields EncryptedTextField and useful for storing storage backend configurations"""
 
     def get_prep_value(self, value):
         ret_val = "{}"
