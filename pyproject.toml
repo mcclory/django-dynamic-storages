@@ -22,7 +22,7 @@ exclude = '''
 
 [tool.poetry]
 name = "django-dynamic-storages"
-version = "0.3.1"
+version = "0.3.2"
 description = "A collection of file fields and associated components to allow for dynamic configuration of storage properties for file-based fields within Django models."
 authors = ["Patrick McClory <patrick@mcclory.io>"]
 license = "ISC"
@@ -37,6 +37,7 @@ django-storages = {extras = ["azure", "boto3", "dropbox", "google", "libcloud", 
 django-fernet-fields = "^0.6"
 django-appconf = "^1.0.4"
 Pillow = "^8.0.0"
+google-cloud = "^0.34.0"
 
 [tool.poetry.dev-dependencies]
 factory-boy = "^3.1.0"

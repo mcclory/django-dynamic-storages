@@ -293,6 +293,14 @@ six = ">=1.9.0"
 aiohttp = ["aiohttp (>=3.6.2,<4.0.0dev)"]
 
 [[package]]
+name = "google-cloud"
+version = "0.34.0"
+description = "API Client library for Google Cloud"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "google-cloud-core"
 version = "1.4.3"
 description = "Google Cloud API client core library"
@@ -571,7 +579,7 @@ socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "6cc65fdd31e7fe90fcb96a8be1ae9d8b00258012e0324fb03a7c03fc050c7495"
+content-hash = "441c4c681d3e558227d288d8363e45408dcb03895ef869e1ae2099580a797547"
 
 [metadata.files]
 apache-libcloud = [
@@ -720,6 +728,10 @@ google-api-core = [
 google-auth = [
     {file = "google-auth-1.22.1.tar.gz", hash = "sha256:9c0f71789438d703f77b94aad4ea545afaec9a65f10e6cc1bc8b89ce242244bb"},
     {file = "google_auth-1.22.1-py2.py3-none-any.whl", hash = "sha256:712dd7d140a9a1ea218e5688c7fcb04af71b431a29ec9ce433e384c60e387b98"},
+]
+google-cloud = [
+    {file = "google-cloud-0.34.0.tar.gz", hash = "sha256:01430187cf56df10a9ba775dd547393185d4b40741db0ea5889301f8e7a9d5d3"},
+    {file = "google_cloud-0.34.0-py2.py3-none-any.whl", hash = "sha256:fb1ab7b0548fe44b3d538041f0a374505b7f990d448a935ea36649c5ccab5acf"},
 ]
 google-cloud-core = [
     {file = "google-cloud-core-1.4.3.tar.gz", hash = "sha256:21afb70c1b0bce8eeb8abb5dca63c5fd37fc8aea18f4b6d60e803bd3d27e6b80"},
