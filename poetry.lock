@@ -72,20 +72,20 @@ typecheck = ["mypy"]
 
 [[package]]
 name = "boto3"
-version = "1.15.17"
+version = "1.16.8"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-botocore = ">=1.18.17,<1.19.0"
+botocore = ">=1.19.8,<1.20.0"
 jmespath = ">=0.7.1,<1.0.0"
 s3transfer = ">=0.3.0,<0.4.0"
 
 [[package]]
 name = "botocore"
-version = "1.18.17"
+version = "1.19.8"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -94,7 +94,7 @@ python-versions = "*"
 [package.dependencies]
 jmespath = ">=0.7.1,<1.0.0"
 python-dateutil = ">=2.1,<3.0.0"
-urllib3 = {version = ">=1.20,<1.26", markers = "python_version != \"3.4\""}
+urllib3 = {version = ">=1.25.4,<1.26", markers = "python_version != \"3.4\""}
 
 [[package]]
 name = "cachetools"
@@ -217,7 +217,7 @@ sftp = ["paramiko"]
 
 [[package]]
 name = "dropbox"
-version = "10.6.0"
+version = "10.8.0"
 description = "Official Dropbox API Client"
 category = "main"
 optional = false
@@ -316,7 +316,7 @@ grpc = ["grpcio (>=1.8.2,<2.0dev)"]
 
 [[package]]
 name = "google-cloud-storage"
-version = "1.31.2"
+version = "1.32.0"
 description = "Google Cloud Storage API client library"
 category = "main"
 optional = false
@@ -579,7 +579,7 @@ socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "441c4c681d3e558227d288d8363e45408dcb03895ef869e1ae2099580a797547"
+content-hash = "3bc2d15ed16db9be8bdc38c5ddc80d06f4a18b57e29935e1647fd491249ff7c0"
 
 [metadata.files]
 apache-libcloud = [
@@ -612,12 +612,12 @@ bcrypt = [
     {file = "bcrypt-3.2.0.tar.gz", hash = "sha256:5b93c1726e50a93a033c36e5ca7fdcd29a5c7395af50a6892f5d9e7c6cfbfb29"},
 ]
 boto3 = [
-    {file = "boto3-1.15.17-py2.py3-none-any.whl", hash = "sha256:1942f253323a959441b5eb38d1010ce4f314deaeb59c4e97464699e87e18bdeb"},
-    {file = "boto3-1.15.17.tar.gz", hash = "sha256:83fc4652eb102c0ff862061d65280bb1ee6f773043b5231d1badb77681267318"},
+    {file = "boto3-1.16.8-py2.py3-none-any.whl", hash = "sha256:207d129d808659b6d5668dc106918aa906373cf00652a53422131e7218df39cf"},
+    {file = "boto3-1.16.8.tar.gz", hash = "sha256:0f8f9ef5e902e05b32f4b7ae3bf948a47675613f5a99185f63d2ef4183225086"},
 ]
 botocore = [
-    {file = "botocore-1.18.17-py2.py3-none-any.whl", hash = "sha256:5b1c189a74e4ecc5fcc833b8c8a12c6040c03b5330401a8a8f459f0dba098826"},
-    {file = "botocore-1.18.17.tar.gz", hash = "sha256:4cdb114947391c88787df3e2f6a9f53ee15f1e2fef8691963e959858a034bb02"},
+    {file = "botocore-1.19.8-py2.py3-none-any.whl", hash = "sha256:da7ecc69b6e2ea42fb849928635c0689cae32a95cb38f82b21213d276e75a4a4"},
+    {file = "botocore-1.19.8.tar.gz", hash = "sha256:2e03401b4e0bc1f32fa11b7d1025975a2955f185dd2650fda6e33c70daeaba4c"},
 ]
 cachetools = [
     {file = "cachetools-4.1.1-py3-none-any.whl", hash = "sha256:513d4ff98dd27f85743a8dc0e92f55ddb1b49e060c2d5961512855cda2c01a98"},
@@ -709,9 +709,9 @@ django-storages = [
     {file = "django_storages-1.10.1-py3-none-any.whl", hash = "sha256:12de8fb2605b9b57bfaf54b075280d7cbb3b3ee1ca4bc9b9add147af87fe3a2c"},
 ]
 dropbox = [
-    {file = "dropbox-10.6.0-py2-none-any.whl", hash = "sha256:ced1cbb6eecc42a18f269a96b20bfe2beefb31ba401ad2142486ab2869ca1ad2"},
-    {file = "dropbox-10.6.0-py3-none-any.whl", hash = "sha256:1d5817e8353e0ade0c2d4f1ac65b08bc0ae91721cb8244cac2cfe7afcc6156fe"},
-    {file = "dropbox-10.6.0.tar.gz", hash = "sha256:8a7c80eb70ec677a149173154a98cf1fa461c6b0e1a1d833c90e40a735eda2cd"},
+    {file = "dropbox-10.8.0-py2-none-any.whl", hash = "sha256:0f16e9abec6b677cae7580395ea656b25ea135366ef00a41946501f1e818fcf2"},
+    {file = "dropbox-10.8.0-py3-none-any.whl", hash = "sha256:3931964ddab95ade5a113c5edb82fbd89353f8770d1e53f4b89a3f02bf6e7129"},
+    {file = "dropbox-10.8.0.tar.gz", hash = "sha256:2312a0314d7698f6aa6944bf6d73a756f4ff7d7d90fa26c323a418a84dc3b533"},
 ]
 factory-boy = [
     {file = "factory_boy-3.1.0-py2.py3-none-any.whl", hash = "sha256:d8626622550c8ba31392f9e19fdbcef9f139cf1ad643c5923f20490a7b3e2e3d"},
@@ -738,8 +738,8 @@ google-cloud-core = [
     {file = "google_cloud_core-1.4.3-py2.py3-none-any.whl", hash = "sha256:75abff9056977809937127418323faa3917f32df68490704d39a4f0d492ebc2b"},
 ]
 google-cloud-storage = [
-    {file = "google-cloud-storage-1.31.2.tar.gz", hash = "sha256:74bbb5b2d0b249de4a52f561435d0c3570ddc19b249653ae588ec0abcc3c81e6"},
-    {file = "google_cloud_storage-1.31.2-py2.py3-none-any.whl", hash = "sha256:e2a2533b5e368365e84d2acaa53b75266a09802fc1c8bda52e3212335eccb6bd"},
+    {file = "google-cloud-storage-1.32.0.tar.gz", hash = "sha256:da12b7bd79bbe978a7945a44b600604fbc10ece2935d31f243e751f99135e34f"},
+    {file = "google_cloud_storage-1.32.0-py2.py3-none-any.whl", hash = "sha256:063bd12b5ceb4045e8681dc5cce8c3ceeb1203f7c5c3e59f5c9b75bb79a5f59b"},
 ]
 google-crc32c = [
     {file = "google-crc32c-1.0.0.tar.gz", hash = "sha256:9439b960b6ecd847557675d130fc3626d762bf535da595c20a6949a705fb3eae"},
