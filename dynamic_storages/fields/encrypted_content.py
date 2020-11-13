@@ -48,6 +48,9 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
             self.fernet = self.fernet(instance)
         if not self.fernet:
             raise RuntimeError("Encryption Fernet details not provided for this instance of a EncryptedFieldFile")
+        if callable(self.get_url):
+            log.debug("EncryptedFieldFile init - _get_url {} is callable".format(self._get_url))
+            self._get_url = self._get_url(instance)
 
     @property
     def fernet(self):
@@ -66,7 +69,7 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
 
     @property
     def url(self):
-        return self._get_url(self.instance) if self._get_url else None
+        return self._get_url
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
@@ -85,6 +88,7 @@ class EncryptedFileField(DynamicStorageFileField):
 
     def __init__(self, *args, **kwargs):
         self.fernet = kwargs.pop("fernet", None)
+        self.get_url = kwargs.pop("get_url", None)
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):
@@ -108,6 +112,6 @@ class EncryptedImageField(DynamicStorageImageField):
     attr_class = EncryptedImageFieldFile
 
     def __init__(self, *args, **kwargs):
-        fernet = kwargs.pop("fernet", None)
+        self.fernet = kwargs.pop("fernet", None)
+        self.get_url = kwargs.pop("get_url", None)
         super().__init__(*args, **kwargs)
-        self.fernet = fernet
