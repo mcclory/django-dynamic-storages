@@ -6,6 +6,8 @@ log = logging.getLogger(__name__)
 
 
 class FileFieldMixin(object):
+    """Common implementation that intercepts the pre_save method and injects the proper storage backend setup before saving a given file to the indicated backend"""
+
     def pre_save(self, model_instance, add):
         if getattr(self, "_storage_callable", None):
             if callable(self._storage_callable):
@@ -42,6 +44,8 @@ class DynamicStorageFileField(FileFieldMixin, FileField):
 
 
 class DynamicStorageImageFieldFile(ImageFile, DynamicStorageFieldFile):
+    """Image FieldFile implementation that inherits the dynamic storage assignment process on a per-model instance level"""
+
     def delete(self, save=True):
         if hasattr(self, "_dimensions_cache"):
             del self._dimensions_cache
@@ -49,4 +53,6 @@ class DynamicStorageImageFieldFile(ImageFile, DynamicStorageFieldFile):
 
 
 class DynamicStorageImageField(DynamicStorageFileField, ImageField):
+    """Image field implementation that allows for runtime assignment of the storage backend via a callable storage provider key"""
+
     attr_class = DynamicStorageImageFieldFile

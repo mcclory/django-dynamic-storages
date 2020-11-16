@@ -9,6 +9,8 @@ from .conf import settings
 
 
 class AbstractSecureFileContents(View):
+    """Abstract view to serve as an example for handling returning the contents of an encrypted file"""
+
     model = None
     url_kwargs = []
     file_field = None

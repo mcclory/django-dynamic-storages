@@ -39,6 +39,8 @@ class DecryptedFile(BytesIO):
 
 
 class EncryptedFieldFile(DynamicStorageFieldFile):
+    """`EncryptedFileField` extends the DynamicStorageFieldFile allowing for files stored to be encrypted based on model instance-level properties"""
+
     def __init__(self, instance, field, name, **kwargs):
         self.fernet = getattr(field, "fernet", None)
         self._get_url = getattr(field, "get_url", None)
@@ -50,17 +52,20 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
             raise RuntimeError("Encryption Fernet details not provided for this instance of a EncryptedFieldFile")
         if callable(self._get_url):
             log.debug("EncryptedFieldFile init - _get_url {} is callable".format(self._get_url))
-            self._get_url = self._get_url(instance)
+            self.model_instance = instance
 
     @property
     def fernet(self):
+        """Retrieve the fernet/multifernet associated with this instance of an `EncryptedFieldFile`"""
         return getattr(self, "_fernet", None)
 
     @fernet.setter
     def fernet(self, val):
+        """Set the fernet/multifernet associated with this instance of an `Encrypted FieldFile`"""
         self._fernet = val
 
     def get_decrypted(self):
+        """method decrypts bytes from file if a fernet is provided for this instance of an `EncryptedFieldFile`"""
         if self.fernet:
             log.debug("Fernet type is {}".format(type(self.fernet)))
             return DecryptedFile(self.open("rb"), self.fernet)
@@ -69,7 +74,8 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
 
     @property
     def url(self):
-        return self._get_url
+        """Override the default url generation for files to allow for it to be decrypted before serving to the user"""
+        return self._get_url(self.model_instance) if getattr(self, "model_instance", None) else super().url
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
@@ -84,6 +90,8 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
 
 
 class EncryptedFileField(DynamicStorageFileField):
+    """Django-level `FileField` extended implementation that allows for individual encryption keying on a per-model instance level"""
+
     attr_class = EncryptedFieldFile
 
     def __init__(self, *args, **kwargs):
@@ -99,6 +107,8 @@ class EncryptedFileField(DynamicStorageFileField):
 
 
 class EncryptedImageFieldFile(ImageFile, EncryptedFieldFile):
+    """`FieldFile` implementation for handling image fields with the ability to encrypt on a per-model instance basis"""
+
     def delete(self, save=True):
         if hasattr(self, "_dimensions_cache"):
             del self._dimensions_cache
@@ -109,6 +119,8 @@ class EncryptedImageFieldFile(ImageFile, EncryptedFieldFile):
 
 
 class EncryptedImageField(DynamicStorageImageField):
+    """Per Django pattern, a model field specific to handling Images that allows for individual encryption keying on a per-model instance level"""
+
     attr_class = EncryptedImageFieldFile
 
     def __init__(self, *args, **kwargs):
