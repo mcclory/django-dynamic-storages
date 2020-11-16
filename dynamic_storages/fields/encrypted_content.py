@@ -48,7 +48,7 @@ class EncryptedFieldFile(DynamicStorageFieldFile):
             self.fernet = self.fernet(instance)
         if not self.fernet:
             raise RuntimeError("Encryption Fernet details not provided for this instance of a EncryptedFieldFile")
-        if callable(self.get_url):
+        if callable(self._get_url):
             log.debug("EncryptedFieldFile init - _get_url {} is callable".format(self._get_url))
             self._get_url = self._get_url(instance)
 
