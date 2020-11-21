@@ -10,6 +10,7 @@ from django.db import models
 from dynamic_storages.conf import settings
 from dynamic_storages.fields.dynamic_storage import DynamicStorageFileField, DynamicStorageImageField
 from dynamic_storages.fields.encrypted_content import EncryptedFileField, EncryptedImageField
+from dynamic_storages.fields.encrypted_json import EncryptedJSONField
 from dynamic_storages.models import AbstractStorageTarget
 import random
 
@@ -24,14 +25,14 @@ class TestStorageTarget(AbstractStorageTarget):
 
 
 class TestBase(models.Model):
-    storage_target = models.ForeignKey("TestStorageTarget", on_delete=models.CASCADE)
+    storage_target = models.ForeignKey("TestStorageTarget", null=True, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
 
 
 def get_storage(instance):
-    if instance:
+    if instance and getattr(instance, "storage_target", None):
         return instance.storage_target.storage_backend
     return default_storage
 
@@ -63,20 +64,29 @@ def get_fernet(instance, prop_name="key"):
 
 
 class KeyedFieldModel(TestBase):
-    key = models.BinaryField(max_length=60, help_text='Generated Fernet key', default=Fernet.generate_key)
+    key = models.BinaryField(max_length=60, help_text="Generated Fernet key", default=Fernet.generate_key)
 
     class Meta:
         abstract = True
 
 
-
 class TestEncryptedFileFieldModel(KeyedFieldModel, TestBase):
     file = EncryptedFileField(storage_instance_callable=get_storage, fernet=get_fernet, upload_to=upload_to)
+
     class Meta:
         abstract = False
 
+
 class TestEncryptedImageFieldModel(KeyedFieldModel, TestBase):
     image = EncryptedImageField(storage_instance_callable=get_storage, fernet=get_fernet, upload_to=upload_to)
+
+    class Meta:
+        abstract = False
+
+
+class TestEncryptedJSONField(models.Model):
+
+    data = EncryptedJSONField(default=dict, blank=True, null=True)
 
     class Meta:
         abstract = False

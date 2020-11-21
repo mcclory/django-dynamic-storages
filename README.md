@@ -83,19 +83,26 @@ The `EncryptedJSONField` is meant to be useful in handling the storage of things
 
 ### Other Stuff
 
-###
+### Running Tests
+
+This project has test-level models... as such, to run the tests built into this project, you'll want to run Django from the `./runtests.py` script which simply adds the test application to the `INSTALLED_APPS` list.
+
+```bash
+./runtests.py test
+```
 
 
 ## To-Do
 
 * [ ] Update the `.models.AbstractStorageTarget` model to include credential checking
 * [ ] Create async task for handling credential checking periodically for `AbstractStorageTarget`-based storage
-* [ ] write more tests around the `default_storage` provider
 * [ ] look into further extending `django-storages` to handle google drive (since it already supports dropbox)
+* [X] write more tests around the `default_storage` provider (`0.4.1`)
 
 ## Revisions
 
-* `0.4.0` (Mon Nov 16 09:50:48 AM PST 2020) - readme updates, documentation fixes, more clarity/examples, added some todo's 
+* `0.4.1` (Fri Nov 20 07:04:43 PM PST 2020) - wrote more tests around storage providers, object create (for file and img fields) as well as some tidying up around the edges
+* `0.4.0` (Mon Nov 16 09:50:48 AM PST 2020) - readme updates, documentation fixes, more clarity/examples, added some todo's
 * `0.3.8` (Mon Nov 16 09:22:41 AM PST 2020) - docstring updates and some changes to the order of operations re: generating a download url for a file via callables
 * `0.3.7` (Mon Nov 16 09:05:32 AM PST 2020) - Fixing typo
 * `0.3.6` (Fri Nov 13 10:01:38 AM PST 2020) - consistency issues with get_url call again... mirroring process from the fernet setup
