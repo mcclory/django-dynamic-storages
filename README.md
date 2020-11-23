@@ -35,7 +35,7 @@ def get_storage(instance):
 
 `EncryptedFileField` and `EncryptedImageField` are extensions each of `DynamicStorageFileField` and `DynamicStorageImageField` with the main difference being that these new field definitions encapsulate the process of encrypting and decrypting content for their files at runtime. Two callables are needed to do this, both of which will receive the `instance` object when called:
 
-* `fernet` - the callable assigned to this should return a [`cryptography.fernet.Fernet`](https://cryptography.io/en/latest/fernet.html?highlight=fernet#cryptography.fernet.Fernet) or [`cryptography.fernet.MultiFernet'](https://cryptography.io/en/latest/fernet.html?highlight=fernet#cryptography.fernet.Fernet) for the handling of encryption operations
+* `fernet` - the callable assigned to this should return a [`cryptography.fernet.Fernet`](https://cryptography.io/en/latest/fernet.html?highlight=fernet#cryptography.fernet.Fernet) or [`cryptography.fernet.MultiFernet`](https://cryptography.io/en/latest/fernet.html?highlight=fernet#cryptography.fernet.Fernet) for the handling of encryption operations
 
 
 * `get_url` - the callable assigned to this should return a URL which is configured/designed to decrypt the content and serve it to the end user as appropriate (i.e. security is baked into your views, not into this field directly). An example of what a view might look like for this is located in ['dynamic_storages/views.py'](dynamic_storages/views.py).
