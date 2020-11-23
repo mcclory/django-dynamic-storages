@@ -1,10 +1,10 @@
+import os
+import random
+from datetime import datetime
+
+from django.core.management.utils import get_random_secret_key
 from django.test import TestCase
 
-import random
-import os
-from django.core.management.utils import get_random_secret_key
-from ..models import TestEncryptedJSONField
-from datetime import datetime
 from ..models import TestEncryptedJSONField
 
 

@@ -1,17 +1,14 @@
-from django.test import TestCase
-from .. import TEST_FILES_DIR
-from .. import TEST_IMAGES_DIR
-from .util import open_file
 import glob
-from ..factories import (
-    TestFileStorageModelFactory,
-    TestImageStorageModelFactory,
-)
 import os
 import random
 
 from django.core.management.utils import get_random_secret_key
+from django.test import TestCase
+
+from .. import TEST_FILES_DIR, TEST_IMAGES_DIR
+from ..factories import TestFileStorageModelFactory, TestImageStorageModelFactory
 from ..models import TestFileStorageModel, TestImageStorageModel
+from .util import open_file
 
 
 class TestDynamicStorageFileField(TestCase):

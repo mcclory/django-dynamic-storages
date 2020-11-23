@@ -4,7 +4,7 @@ import logging
 from django.core.serializers.json import DjangoJSONEncoder
 from fernet_fields import EncryptedTextField
 
-log = logging.getLogger(__name__)
+from ..utils import log
 
 
 class EncryptedJSONField(EncryptedTextField):

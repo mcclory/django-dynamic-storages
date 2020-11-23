@@ -1,16 +1,15 @@
 import logging
 from uuid import uuid4
 
+from django.core.files.storage import default_storage
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from google.oauth2 import service_account
-from django.core.files.storage import default_storage
 
 from ..fields.encrypted_json import EncryptedJSONField
+from ..utils import log
 from .mappings import LAST_STATUS_CHOICES, STORAGE_PROVIDER_MAP
-
-log = logging.getLogger(__name__)
 
 
 class AbstractStorageTarget(models.Model):
@@ -78,31 +77,52 @@ class AbstractStorageTarget(models.Model):
         help_text=_("Timestamp that this storage provider should be used as of"),
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._storage_provider = None
+
     @classmethod
     def as_of(cls, timestamp):
-        return cls.objects.filter(as_of__lte=timestamp)
+        return cls.objects.filter(as_of__lte=timestamp or timezone.now())
 
     def __self__(self):
         return "{} - {}".format(self.name, self.get_storage_provider_display())
 
+    def __repr__(self):
+        return str(self.id)
+
     @property
     def storage_backend(self):
         """Property that should be used when assigning a DynamicStorageFileField's `storage` property at runtime"""
-        if self.provider != "default":
-            create_class = STORAGE_PROVIDER_MAP[self.provider]["class"]
-            create_kwargs = getattr(self, "config", {}).copy()
-            if self.provider == "gcloud":
-                log.debug("creds: {}".format(create_kwargs.get("credentials", {})))
-                create_kwargs["credentials"] = service_account.Credentials.from_service_account_info(create_kwargs.pop("credentials", {}))
-            if self.provider == "digitalocean":
-                create_kwargs["addressing_style"] = "path"
-                if not create_kwargs.get("region_name"):
-                    create_kwargs["region_name"] = "SFO1"
-                create_kwargs["endpoint_url"] = "https://{}.digitaloceanspaces.com".format(create_kwargs.get("region_name", "SFO1"))
-            elif self.provider == "s3boto3":
-                create_kwargs["default_acl"] = create_kwargs.get("default_acl", "bucket-owner-full-control")
-            return create_class(**create_kwargs)
-        return default_storage
+        # anything that's in the map that has a class object referenced, try to build it, otherwise assume all others should return default...
+        if self.provider not in [k for k, v in STORAGE_PROVIDER_MAP.items() if v.get("class", None)]:
+            if not getattr(self, "_storage_backend", None):
+                create_class = STORAGE_PROVIDER_MAP[self.provider]["class"]
+                create_kwargs = getattr(self, "config", {}).copy()
+                if self.provider == "gcloud":
+                    log.debug("creds: {}".format(create_kwargs.get("credentials", {})))
+                    create_kwargs["credentials"] = service_account.Credentials.from_service_account_info(create_kwargs.pop("credentials", {}))
+                    log.debug("Storage Target - storage_backend - created credentials object for Google APIs from credential json provided.")
+                if self.provider == "do":
+                    create_kwargs["addressing_style"] = "path"
+                    if not create_kwargs.get("region_name"):
+                        create_kwargs["region_name"] = "SFO1"
+                        log.debug("Storage Target - storage_backend - set region_name to SFO1 for DigitalOcean as no other value was set")
+                    create_kwargs["endpoint_url"] = "https://{}.digitaloceanspaces.com".format(create_kwargs.get("region_name", "SFO1"))
+                elif self.provider == "s3boto3":
+                    create_kwargs["default_acl"] = create_kwargs.get("default_acl", "bucket-owner-full-control")
+                    log.debug("Storage Target - storage_backend - set default_acl to {}".format(create_kwargs["default_acl"]))
+                self._storage_backend = create_class(**create_kwargs)
+                log.debug("Storage Target - storage_backend - set local _storage_backend value for {}".format(self.provider))
+            if getattr(self, "_storage_backend", None):
+                return self._storage_backend
+            else:
+                raise RuntimeError(
+                    "Storage Target - storage_backend - provider is not default and self._storage_provider has not been set - something is wrong with the storage backend construction/init process"
+                )
+        else:
+            log.debug("Storage Target - storage_backend - No storage provider can be determined from this model, returnin the Django `default_storage` backend")
+            return default_storage
 
     def _check_credentials(self):
         pass

@@ -1,8 +1,9 @@
 import logging
-from django.db.models.fields.files import FieldFile, FileField, ImageField
-from django.core.files.images import ImageFile
 
-log = logging.getLogger(__name__)
+from django.core.files.images import ImageFile
+from django.db.models.fields.files import FieldFile, FileField, ImageField
+
+from ..utils import log
 
 
 class FileFieldMixin(object):

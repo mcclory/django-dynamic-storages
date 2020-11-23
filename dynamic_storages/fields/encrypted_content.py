@@ -9,9 +9,8 @@ from django.db.models.fields.files import FieldFile, FileField, ImageField
 from django.urls import reverse
 
 from ..conf import settings
+from ..utils import log
 from .dynamic_storage import DynamicStorageFieldFile, DynamicStorageFileField, DynamicStorageImageField, DynamicStorageImageFieldFile, FileFieldMixin
-
-log = logging.getLogger(__name__)
 
 
 class EncryptedFile(BytesIO):

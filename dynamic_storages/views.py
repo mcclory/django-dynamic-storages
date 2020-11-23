@@ -1,3 +1,4 @@
+import logging
 import os
 
 import magic
@@ -6,6 +7,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import View
 
 from .conf import settings
+
+log = logging.getLogger(__name__)
 
 
 class AbstractSecureFileContents(View):

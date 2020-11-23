@@ -16,8 +16,8 @@ from faker import Faker
 
 from dynamic_storages.models.mappings import LAST_STATUS_CHOICES, STORAGE_PROVIDER_MAP
 
-from .models import TestEncryptedFileFieldModel, TestEncryptedImageFieldModel, TestFileStorageModel, TestImageStorageModel, TestStorageTarget, get_fernet
 from .abstract import AbstractStorageTargetFactory
+from .models import TestEncryptedFileFieldModel, TestEncryptedImageFieldModel, TestFileStorageModel, TestImageStorageModel, TestStorageTarget, get_fernet
 
 log = logging.getLogger(__name__)
 

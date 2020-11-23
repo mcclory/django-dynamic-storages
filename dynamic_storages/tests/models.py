@@ -1,10 +1,12 @@
 import base64
 import hashlib
 import logging
+import random
 from uuid import uuid4
 
 from cryptography.fernet import Fernet
 from django.core.files.storage import default_storage
+from django.core.management.utils import get_random_secret_key
 from django.db import models
 
 from dynamic_storages.conf import settings
@@ -12,9 +14,6 @@ from dynamic_storages.fields.dynamic_storage import DynamicStorageFileField, Dyn
 from dynamic_storages.fields.encrypted_content import EncryptedFileField, EncryptedImageField
 from dynamic_storages.fields.encrypted_json import EncryptedJSONField
 from dynamic_storages.models import AbstractStorageTarget
-import random
-
-from django.core.management.utils import get_random_secret_key
 
 log = logging.getLogger(__name__)
 
