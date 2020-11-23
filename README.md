@@ -101,6 +101,8 @@ This project has test-level models... as such, to run the tests built into this 
 
 ## Revisions
 
+
+* `0.4.3` (Mon Nov 23 10:40:55 AM PST 2020) - updates to generic/abstract view to pull `mime_type` from a model field if it's specified.
 * `0.4.2` (Fri Nov 20 07:04:43 PM PST 2020) - wrote more tests around storage providers, object create (for file and img fields) as well as some tidying up around the edges
 * `0.4.0` (Mon Nov 16 09:50:48 AM PST 2020) - readme updates, documentation fixes, more clarity/examples, added some todo's
 * `0.3.8` (Mon Nov 16 09:22:41 AM PST 2020) - docstring updates and some changes to the order of operations re: generating a download url for a file via callables

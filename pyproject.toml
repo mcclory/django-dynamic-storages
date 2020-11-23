@@ -22,13 +22,23 @@ exclude = '''
 
 [tool.poetry]
 name = "django-dynamic-storages"
-version = "0.4.2"
+version = "0.4.3"
 description = "A collection of file fields and associated components to allow for dynamic configuration of storage properties for file-based fields within Django models."
 authors = ["Patrick McClory <patrick@mcclory.io>"]
-license = "ISC"
+license = "BSD-3-Clause"
 packages = [
     { include = "dynamic_storages" },
 ]
+readme = "README.md"
+homepage = "https://github.com/mcclory/django-dynamic-storages"
+repository = "https://github.com/mcclory/django-dynamic-storages"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Django :: 3.1",
+  "Intended Audience :: Developers",
+  "Natural Language :: English"
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.8"

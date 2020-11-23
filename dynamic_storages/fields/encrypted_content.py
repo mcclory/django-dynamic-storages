@@ -118,7 +118,7 @@ class EncryptedImageFieldFile(ImageFile, EncryptedFieldFile):
         return DynamicStorageImageFieldFile.save(self, name, EncryptedFile(content, self.fernet), save=save)
 
 
-class EncryptedImageField(DynamicStorageImageField):
+class DynamicStorageImageField(DynamicStorageImageField):
     """Per Django pattern, a model field specific to handling Images that allows for individual encryption keying on a per-model instance level"""
 
     attr_class = EncryptedImageFieldFile
