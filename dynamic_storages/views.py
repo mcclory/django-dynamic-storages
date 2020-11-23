@@ -25,7 +25,7 @@ class GenericFileContentsView(mixins.RetrieveModelMixin, viewsets.GenericViewSet
         try:
             obj = self.get_object()
             content = getattr(obj, self.file_field).get_decrypted().read()
-            mime_type = str(getattr(doc, self.mime_type_field, None)) if self.mime_type_field else magic.Magic(mime=True).from_buffer(content)
+            mime_type = str(getattr(obj, self.mime_type_field, None)) if self.mime_type_field else magic.Magic(mime=True).from_buffer(content)
             log.info("() ({}) retrieved for download by user {}".format(obj.__class__.__name__, str(obj.id), request.user))
             return HttpResponse(content, content_type=mime_type)
         except Exception as ex:

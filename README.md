@@ -97,12 +97,12 @@ This project has test-level models... as such, to run the tests built into this 
 * [ ] Update the `.models.AbstractStorageTarget` model to include credential checking
 * [ ] Create async task for handling credential checking periodically for `AbstractStorageTarget`-based storage
 * [ ] look into further extending `django-storages` to handle google drive (since it already supports dropbox)
-* [ ] simplify and validate usage of the generic ~`AbstractSecureFileContents`~ `GenericFileContentsView` view
+* [X] simplify and validate usage of the generic ~`AbstractSecureFileContents`~ `GenericFileContentsView` view
 * [X] write more tests around the `default_storage` provider (`0.4.1`)
 
 ## Revisions
 
-
+* `0.5.3` (Mon Nov 23 01:26:23 PM PST 2020) - missed a reference to a variable I'd pulled out/renamed where I was determining mimetype for the file download
 * `0.5.2` (Mon Nov 23 01:00:08 PM PST 2020) - so I had to take a dependency on [django-rest-framework](https://www.django-rest-framework.org/) but it made the generic views for retrieving encrypted content a lot easier to deal with. New tests and tweaks to the generic views and we're in business!
 * `0.5.1` (Mon Nov 23 12:!5:14 PM PST 2020) - Renaming Abstract views to 'Generic' and layering them in so that they can be extended/used more easily
 * `0.5.0` (Mon Nov 23 11:42:33 AM PST 2020) - fixing formatting, ran `isort` and added some logging to the `AbstractStorageTarget` process which constructs the backend classes.
