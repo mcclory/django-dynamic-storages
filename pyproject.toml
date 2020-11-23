@@ -22,7 +22,7 @@ exclude = '''
 
 [tool.poetry]
 name = "django-dynamic-storages"
-version = "0.5.0"
+version = "0.5.2"
 description = "A collection of file fields and associated components to allow for dynamic configuration of storage properties for file-based fields within Django models."
 authors = ["Patrick McClory <patrick@mcclory.io>"]
 license = "BSD-3-Clause"
@@ -54,10 +54,14 @@ boto3 = "^1.16.8"
 dropbox = "^10.8.0"
 google-cloud-storage = "^1.32.0"
 paramiko = "^2.7.2"
+python-magic = "^0.4.18"
+djangorestframework = "^3.12.2"
 
 [tool.poetry.dev-dependencies]
 factory-boy = "^3.1.0"
 python-dotenv = "^0.14.0"
+django-extensions = "^3.0.9"
+django-test-plus = "^1.4.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

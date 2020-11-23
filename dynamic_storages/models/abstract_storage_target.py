@@ -95,7 +95,7 @@ class AbstractStorageTarget(models.Model):
     def storage_backend(self):
         """Property that should be used when assigning a DynamicStorageFileField's `storage` property at runtime"""
         # anything that's in the map that has a class object referenced, try to build it, otherwise assume all others should return default...
-        if self.provider not in [k for k, v in STORAGE_PROVIDER_MAP.items() if v.get("class", None)]:
+        if self.provider in [k for k, v in STORAGE_PROVIDER_MAP.items() if v.get("class", None)]:
             if not getattr(self, "_storage_backend", None):
                 create_class = STORAGE_PROVIDER_MAP[self.provider]["class"]
                 create_kwargs = getattr(self, "config", {}).copy()

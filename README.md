@@ -1,14 +1,14 @@
 # Django Dynamic Storages
 
-I'll fill this in with more detail later, but the basic reasoning for this project is that I needed something I could use to extend the already excellent [django-storages](https://github.com/jschneier/django-storages) project such that the storage field on any given `FileField` was a callable I could source a model instance value from. I've also included an abstract class for holding a configuration that stores (securely via [django-fernet-fields](https://github.com/orcasgit/django-fernet-fields)) the access configuration for a given storage backend as well.  
+I'll fill this in with more detail later, but the basic reasoning for this project is that I needed something I could use to extend the already excellent [`django-storages`](https://github.com/jschneier/django-storages) project such that the storage field on any given [`FileField`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#filefield) was a callable I could source a model instance value from. I've also included an abstract class for holding a configuration that stores (securely via [django-fernet-fields](https://github.com/orcasgit/django-fernet-fields)) the access configuration for a given storage backend as well.  
 
 ## Goals
 
 I wanted a way to:
 
-* dynamically/at runtime, assign a `django-storages` backend to a given `FileField` in a model
-* dynamically/at runtime, manage the encryption/decryption of the contents of the aforementioned `FileField`
-* Ideally, I'd like to be able to achieve this following idiomatic patterns from `django-storages` in terms of using callable kwargs to achieve this so that the consumer of these components had as much control over details as possible with the least amount of overhead.
+* dynamically/at runtime, assign a [`django-storages`](https://github.com/jschneier/django-storages) backend to a given [`FileField`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#filefield) in a model
+* dynamically/at runtime, manage the encryption/decryption of the contents of the aforementioned [`FileField`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#filefield)
+* Ideally, I'd like to be able to achieve this following idiomatic patterns from [`django-storages`](https://github.com/jschneier/django-storages) in terms of using callable kwargs to achieve this so that the consumer of these components had as much control over details as possible with the least amount of overhead.
     * I took the [`upload_to`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.FileField.upload_to) implementation as inspiration for how to implement the above.
 
 ## Components
@@ -20,7 +20,7 @@ I wanted a way to:
 `DynamicStorageFileField` and `DynamicStorageImageField` are extensions each of the built-in Django [`FileField`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#filefield) and [`ImageField`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#integerfield) which utilizes the storage backends provided by [django-storages](https://django-storages.readthedocs.io/en/latest/). Rather than setting the `storage` kwarg at the field level, we're using a kwarg we named `storage_instance_callable` to manage the callable function workflow for determining the backend to use. This is, primarily, due to Django 3.0 allowing a callable to be passed in for the `storage` kwarg, however it does not pass the callable function any context - we simply sidestep that issue by using a different kwarg and then use that to set the storage value.
 
 
-Fpr the sake of providing an example, the following is a real-world usage of this process using a callable function which takes the model instance in as an argument. It identifies if a 'team' is attached to the instance and then finds the `TeamStorageTarget` (a separate model derived from `dynamic_storages.models.AbstractStorageTarget`)
+FOr the sake of providing an example, the following is a real-world usage of this process using a callable function which takes the model instance in as an argument. It identifies if a 'team' is attached to the instance and then finds the `TeamStorageTarget` (a separate model derived from `dynamic_storages.models.AbstractStorageTarget`)
 
 ```python
 def get_storage(instance):
@@ -97,11 +97,15 @@ This project has test-level models... as such, to run the tests built into this 
 * [ ] Update the `.models.AbstractStorageTarget` model to include credential checking
 * [ ] Create async task for handling credential checking periodically for `AbstractStorageTarget`-based storage
 * [ ] look into further extending `django-storages` to handle google drive (since it already supports dropbox)
+* [ ] simplify and validate usage of the generic ~`AbstractSecureFileContents`~ `GenericFileContentsView` view
 * [X] write more tests around the `default_storage` provider (`0.4.1`)
 
 ## Revisions
 
-* `0.5.0` (Mon Nov 23 11:42:33 AM PST 2020) - fixing formatting, ran `isort` and added some logging to the `AbstractStorageTarget` process which constructs the backend classes. 
+
+* `0.5.2` (Mon Nov 23 01:00:08 PM PST 2020) - so I had to take a dependency on [django-rest-framework](https://www.django-rest-framework.org/) but it made the generic views for retrieving encrypted content a lot easier to deal with. New tests and tweaks to the generic views and we're in business!
+* `0.5.1` (Mon Nov 23 12:!5:14 PM PST 2020) - Renaming Abstract views to 'Generic' and layering them in so that they can be extended/used more easily
+* `0.5.0` (Mon Nov 23 11:42:33 AM PST 2020) - fixing formatting, ran `isort` and added some logging to the `AbstractStorageTarget` process which constructs the backend classes.
 * `0.4.5` (Mon Nov 23 11:24:18 AM PST 2020) - updates to generic/abstract view to pull `mime_type` from a model field if it's specified... adding common logger for all components.
 * `0.4.2` (Fri Nov 20 07:04:43 PM PST 2020) - wrote more tests around storage providers, object create (for file and img fields) as well as some tidying up around the edges
 * `0.4.0` (Mon Nov 16 09:50:48 AM PST 2020) - readme updates, documentation fixes, more clarity/examples, added some todo's

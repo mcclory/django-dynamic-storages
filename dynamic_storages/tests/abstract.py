@@ -12,6 +12,7 @@ from dynamic_storages.models.mappings import LAST_STATUS_CHOICES, STORAGE_PROVID
 log = logging.getLogger(__name__)
 
 fake = Faker()
+from . import TEST_DATA_DIR
 
 
 def get_config(key, **kwargs):
@@ -83,7 +84,7 @@ def get_config(key, **kwargs):
             "default_acl": kwargs.get("default_acl", "private"),
         }
     elif key.lower() == "sftp":
-        SSH_KEY_PATH = os.path.join(TEST_DATA_BASE_DIR, "sftp")
+        SSH_KEY_PATH = os.path.join(TEST_DATA_DIR, "sftp")
         with open(os.path.join(SSH_KEY_PATH, "sftp-test"), "r") as f:
             ssh_private_key = f.read()
 

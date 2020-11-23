@@ -3,7 +3,7 @@ import os
 import random
 
 from django.core.management.utils import get_random_secret_key
-from django.test import TestCase
+from test_plus.test import TestCase
 
 from .. import TEST_FILES_DIR, TEST_IMAGES_DIR
 from ..models import TestEncryptedFileFieldModel, TestEncryptedImageFieldModel
