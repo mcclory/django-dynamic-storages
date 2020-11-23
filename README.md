@@ -101,7 +101,7 @@ This project has test-level models... as such, to run the tests built into this 
 
 ## Revisions
 
-
+* `0.5.0` (Mon Nov 23 11:42:33 AM PST 2020) - fixing formatting, ran `isort` and added some logging to the `AbstractStorageTarget` process which constructs the backend classes. 
 * `0.4.5` (Mon Nov 23 11:24:18 AM PST 2020) - updates to generic/abstract view to pull `mime_type` from a model field if it's specified... adding common logger for all components.
 * `0.4.2` (Fri Nov 20 07:04:43 PM PST 2020) - wrote more tests around storage providers, object create (for file and img fields) as well as some tidying up around the edges
 * `0.4.0` (Mon Nov 16 09:50:48 AM PST 2020) - readme updates, documentation fixes, more clarity/examples, added some todo's
