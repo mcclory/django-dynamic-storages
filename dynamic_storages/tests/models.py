@@ -10,8 +10,10 @@ from django.core.management.utils import get_random_secret_key
 from django.db import models
 
 from dynamic_storages.conf import settings
-from dynamic_storages.fields.dynamic_storage import DynamicStorageFileField, DynamicStorageImageField
-from dynamic_storages.fields.encrypted_content import EncryptedFileField, EncryptedImageField
+from dynamic_storages.fields.dynamic_storage import (DynamicStorageFileField,
+                                                     DynamicStorageImageField)
+from dynamic_storages.fields.encrypted_content import (EncryptedFileField,
+                                                       EncryptedImageField)
 from dynamic_storages.fields.encrypted_json import EncryptedJSONField
 from dynamic_storages.models import AbstractStorageTarget
 
@@ -84,7 +86,6 @@ class TestEncryptedImageFieldModel(KeyedFieldModel, TestBase):
 
 
 class TestEncryptedJSONField(models.Model):
-
     data = EncryptedJSONField(default=dict, blank=True, null=True)
 
     class Meta:

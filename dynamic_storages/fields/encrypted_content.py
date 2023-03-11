@@ -10,7 +10,9 @@ from django.urls import reverse
 
 from ..conf import settings
 from ..utils import log
-from .dynamic_storage import DynamicStorageFieldFile, DynamicStorageFileField, DynamicStorageImageField, DynamicStorageImageFieldFile, FileFieldMixin
+from .dynamic_storage import (DynamicStorageFieldFile, DynamicStorageFileField,
+                              DynamicStorageImageField,
+                              DynamicStorageImageFieldFile, FileFieldMixin)
 
 
 class EncryptedFile(BytesIO):

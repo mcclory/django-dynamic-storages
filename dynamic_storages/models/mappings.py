@@ -1,4 +1,5 @@
-from storages.backends import apache_libcloud, azure_storage, dropbox, ftp, gcloud, s3boto3, sftpstorage
+from storages.backends import (apache_libcloud, azure_storage, dropbox, ftp,
+                               gcloud, s3boto3, sftpstorage)
 
 LAST_STATUS_CHOICES = [["v", "Valid"], ["e", "Error"], ["u", "Unknown"]]
 STORAGE_PROVIDER_MAP = {

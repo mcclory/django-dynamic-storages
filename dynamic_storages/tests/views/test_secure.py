@@ -1,7 +1,8 @@
-from test_plus.test import TestCase
-from ..factories import TestEncryptedFileFieldModelFactory
-from rest_framework.test import APIClient
 from django.urls import reverse
+from rest_framework.test import APIClient
+from test_plus.test import TestCase
+
+from ..factories import TestEncryptedFileFieldModelFactory
 
 
 class TestSecureContentsView(TestCase):

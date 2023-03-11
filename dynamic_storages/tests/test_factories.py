@@ -1,12 +1,9 @@
 from test_plus.test import TestCase
 
-from .factories import (
-    TestEncryptedFileFieldModelFactory,
-    TestEncryptedImageFieldModelFactory,
-    TestFileStorageModelFactory,
-    TestImageStorageModelFactory,
-    TestStorageTargetFactory,
-)
+from .factories import (TestEncryptedFileFieldModelFactory,
+                        TestEncryptedImageFieldModelFactory,
+                        TestFileStorageModelFactory,
+                        TestImageStorageModelFactory, TestStorageTargetFactory)
 
 
 class TestStorageTargetFactoryTestCase(TestCase):

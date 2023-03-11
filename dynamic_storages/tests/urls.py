@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .models import TestEncryptedFileFieldModel
+
 from ..views import GenericFileContentsView, GenericSecureFileContentsView
+from .models import TestEncryptedFileFieldModel
 
 
 class FileContentsView(GenericFileContentsView):

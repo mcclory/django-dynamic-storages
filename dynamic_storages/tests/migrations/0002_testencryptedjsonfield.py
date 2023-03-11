@@ -6,7 +6,6 @@ import dynamic_storages.fields.encrypted_json
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("tests", "0001_initial"),
     ]

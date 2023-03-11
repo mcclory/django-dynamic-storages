@@ -7,7 +7,8 @@ from functools import partial
 import factory
 from faker import Faker
 
-from dynamic_storages.models.mappings import LAST_STATUS_CHOICES, STORAGE_PROVIDER_MAP
+from dynamic_storages.models.mappings import (LAST_STATUS_CHOICES,
+                                              STORAGE_PROVIDER_MAP)
 
 log = logging.getLogger(__name__)
 
